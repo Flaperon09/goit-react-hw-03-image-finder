@@ -1,5 +1,14 @@
-export const ImageGallery = (props) => {
+import ImageGalleryItem from "components/ImageGalleryItem";
+import { Gallery } from "./ImageGallery.styled";
+
+export const ImageGallery = ({arrImages}) => {
     return (
-        console.log('')
+        <Gallery>
+
+            <ImageGalleryItem
+                arrPhotos={arrImages}
+            />
+
+        </Gallery>
     )
 };
