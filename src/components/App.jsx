@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { GlobalStyle } from "./GlobalStyle";
-import { getPhotos } from './services';
+import { GlobalStyle } from "../GlobalStyle";
+import { getPhotos } from '../services';
 import { Searchbar } from './Searchbar';
 import { ImageGallery } from './ImageGallery';
 import { Button } from './Button';
@@ -31,7 +31,7 @@ class App extends Component {
         .then(response => (this.setState({
           images: [...prevState.images, ...response.data.hits], // Добавление изображений в массив
           totalImages: response.data.total, // Установка количества найденных изиборажений
-          status: 'iddle', // Выключение статуса ожидания ответа сервера (выкл спиннер)
+          status: 'idle', // Выключение статуса ожидания ответа сервера (выкл спиннер)
         })
         ));      
     }    
@@ -67,12 +67,13 @@ class App extends Component {
         <Searchbar
           onSubmitForm={this.handleSubmit}
         />
-
-        <ImageGallery
-          arrImages={this.state.images}
-        />
-        {/* Рендер кнопки "Load more", если массив изображений больше 0 и всего изображений больше 12 */}
-        {((images.length !== 0) && (totalImages > 12)) && <Button onClickLoadMore={this.handleLoadMore} />} 
+        {/* Рендер списка, если массив изображений не пустой */}
+        {images.length !== 0 && <ImageGallery arrImages={this.state.images} />}
+        
+        {/* Рендер кнопки "Load more", если: 1) массив изображений больше 0 И 2) всего изображений больше 12 И */}
+        {/* 3) длинна массива меньше общего кол-ва изображений И 4) status === 'idle' */}
+        {((images.length !== 0) && (totalImages > 12) && (images.length < totalImages) && (status === 'idle'))
+          && <Button onClickLoadMore={this.handleLoadMore} />} 
 
         {/* Рендер спиннера во время ожидания ответа сервера */}
         {status === 'pending' && <Loader />}

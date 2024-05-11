@@ -22,34 +22,26 @@ class ImageGalleryItem extends Component {
     }
 
     render() {
-        const { arrPhotos } = this.props;
+        const { id, webformatURL, largeImageURL } = this.props;
         const { showModal, idImageForModal } = this.state;
-        
-        // Устранение ошибки при начальном отсутствии массива картинок
-        if (!arrPhotos.length) {
-            return
-        } else {
-            return (
-                arrPhotos.map(({ id, webformatURL, largeImageURL }) => {
-                    return (
-                        <GalleryItem key={id}>
-                            <GalleryPhoto
-                                src={webformatURL}
-                                alt=""
-                                onClick={() => this.toggleModal(id)}
-                            />
 
-                            {showModal && idImageForModal === id &&
-                                <Modal
-                                    largeImage={largeImageURL}
-                                    onClose={this.toggleModal}
-                                />
-                            }
-                        </GalleryItem>
-                    )
-                })           
-            )
-        }
+        return (
+            <GalleryItem key={id}>
+                <GalleryPhoto
+                    src={webformatURL}
+                    alt=""
+                    onClick={() => this.toggleModal(id)}
+                />
+
+                {/* Открытие модального окна по условиям */}
+                {showModal && idImageForModal === id &&
+                    <Modal
+                        largeImage={largeImageURL}
+                        onClose={this.toggleModal}
+                    />
+                }
+            </GalleryItem>
+        )
     };
 };
 
